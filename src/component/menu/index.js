@@ -4,136 +4,125 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Flex from '../flex';
 
-class MenuItem extends React.Component {
+class Menu extends React.Component {
     constructor(props) {
         super(props);
-        this.handleTriggerMenu = ::this.handleTriggerMenu;
-        this.getMenuItemDisabled = ::this.getMenuItemDisabled;
 
+        let hoverItem = {};
+        let clickItems = [];
+        const {data, selected} = props;
+        _.each(data, one => {
+            _.each(one.sub, two => {
+                if (selected.includes(two.link)) {
+                    hoverItem = two;
+                    clickItems.push(one);
+                }
+            });
+        });
         this.state = {
-            collapse: false
+            over: false,
+            clickItems,
+            hoverItem
         };
     }
 
-    getMenuItemDisabled(data, selected) {
-        let menuItemDisabled = false;
-
-        if (selected && !_.isEmpty(selected)) {
-            _.find(data.sub, (v) => {
-                if (selected === v) {
-                    menuItemDisabled = true;
-                }
-            });
-        }
-        return menuItemDisabled;
-    }
-
-    handleTriggerMenu() {
-        const {collapse} = this.state;
-
+    handleOne = (one, e) => {
+        e.preventDefault();
         this.setState({
-            collapse: !collapse
+            clickItems: _.xor(this.state.clickItems, [one]),
+            hoverItem: one.sub[0]
         });
-    }
+    };
 
-    componentWillReceiveProps(newProps) {
-        const {collapse} = this.state;
-        const {data, selected} = newProps;
-        const menuItemDisabled = !!this.getMenuItemDisabled(data, selected);
+    handleTwoOver = (two) => {
+        this.setState({
+            over: true,
+            hoverItem: two
+        });
+    };
 
-        if (menuItemDisabled && collapse) {
-            this.setState({
-                collapse: false
-            });
-        }
-    }
+    handleLeave = () => {
+        this.setState({
+            over: false
+        });
+    };
 
     render() {
-        const {data, selected, onSelect, allowCollapse} = this.props;
-        const {collapse} = this.state;
-        const menuItemDisabled = !!this.getMenuItemDisabled(data, selected);
+        const {
+            onSelect,
+            selected,
+            data,
+            className,
+            logo, // eslint-disable-line
+            ...rest
+        } = this.props;
+
+        const {clickItems, hoverItem, over} = this.state;
 
         return (
-            <div className='gm-menu'>
-                <Flex alignCenter justifyBetween
-                      onClick={allowCollapse && !menuItemDisabled ? this.handleTriggerMenu : null}
-                      className={classNames("gm-menu-title", {
-                          'gm-menu-title-disabled': !allowCollapse || menuItemDisabled
-                      })}>
-                    <span>{data.name}</span>
-                    {
-                        allowCollapse ?
-                            <i className={classNames('gm-margin-right-15 ifont', {
-                                'gm-disabled-arrow-color': menuItemDisabled,
-                                'ifont-down-small': collapse,
-                                'ifont-up-small': !collapse
-                            })}/> : null
-                    }
+            <div
+                {...rest}
+                className={classNames("gm-menu", className)}
+                onMouseLeave={this.handleLeave}
+            >
+                <Flex alignCenter justifyCenter className="gm-menu-logo">
+                    {logo}
                 </Flex>
-                <div className={classNames("gm-menu-sub", {
-                    'gm-menu-sub-opened': !collapse
-                })}>
-                    {_.map(data.sub, (v, k) => (
-                            <span
-                                key={k}
-                                onClick={onSelect.bind(this, v)}
-                                className={selected === v ? 'active' : ''}
-                            >{v.name}</span>
-                        )
-                    )}
+                <div className="gm-menu-one">
+                    {_.map(data, (one, oneI) => (
+                        <div key={oneI + one.link} className={classNames({
+                            'active': clickItems.includes(one)
+                        })}>
+                            <a
+                                href={one.link}
+                                onClick={this.handleOne.bind(this, one)}
+                            >{one.name}</a>
+
+                            <div className="gm-menu-two">
+                                {_.map(one.sub, (two, twoI) => (
+
+                                    <a
+                                        key={twoI + two.link}
+                                        className={classNames({
+                                            'active': hoverItem.link === two.link
+                                        })}
+                                        href={two.link}
+                                        onClick={e => e.preventDefault()}
+                                        onMouseOver={this.handleTwoOver.bind(this, two)}
+                                    >{two.name}</a>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
                 </div>
+                {over && hoverItem.sub && (
+                    <Flex column flex className="gm-menu-there">
+                        {_.map(hoverItem.sub, (v, i) => (
+                            <a
+                                href={v.link}
+                                key={i + v.link}
+                                className={classNames({
+                                    'active': selected.includes(v.link)
+                                })}
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    onSelect(v);
+                                }}
+                            >{v.name}</a>
+                        ))}
+                    </Flex>
+                )}
             </div>
         );
     }
 }
 
-MenuItem.propTypes = {
-    data: PropTypes.object.isRequired,
-    onSelect: PropTypes.func.isRequired,
-    allowCollapse: PropTypes.bool,
-    selected: PropTypes.object
-};
-
-class Menu extends React.Component {
-    render() {
-        const {
-            data, onSelect, selected, id, allowCollapse,
-            className,
-            ...rest
-        } = this.props;
-
-        if (!data) {
-            return <div/>;
-        }
-
-        return (
-            <ul key={id} {...rest} className={classNames("gm-menu-y gm-border", className)}>
-                {_.map(data, (value, i) => {
-                        return <MenuItem
-                            key={i}
-                            data={value}
-                            selected={selected}
-                            onSelect={onSelect}
-                            allowCollapse={allowCollapse}
-                        />;
-                    }
-                )}
-            </ul>
-        );
-    }
-}
-
 Menu.propTypes = {
-    id: PropTypes.string.isRequired,
+    logo: PropTypes.element,
+    // 三级菜单 [{link, name, sub: [{link, name, sub: [{link, name}]}]}]
     data: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
-    allowCollapse: PropTypes.bool,
-    selected: PropTypes.object
-};
-
-Menu.defaultProps = {
-    allowCollapse: false
+    selected: PropTypes.string.isRequired
 };
 
 export default Menu;
-

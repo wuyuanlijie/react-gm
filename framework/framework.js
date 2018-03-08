@@ -38,7 +38,7 @@ class Framework extends React.Component {
     };
 
     render() {
-        let {showMobileMenu, topContent, topHeader, menu, breadcrumb, copyright, children} = this.props;
+        let {showMobileMenu, menu, rightTop, children} = this.props;
 
         return (
             <div className={classNames("gm-framework", {
@@ -48,25 +48,14 @@ class Framework extends React.Component {
                     'gm-filter-blur-transition': this.state.blur
                 })}>
                     <div className="gm-framework-full-height">
-                        <div className="gm-framework-top">
-                            {topHeader && (
-                                <div className="gm-framework-top-header">{topHeader}</div>
-                            )}
-                            {topContent && (
-                                <div className="gm-framework-top-content">{topContent}</div>
-                            )}
-                        </div>
-                        <div className="gm-framework-center">
-                            <Flex className="gm-framework-container">
-                                {menu && <div className="gm-framework-left">{menu}</div>}
-                                <Flex flex column className="gm-framework-right">
-                                    {breadcrumb && <div className="gm-framework-breadcrumb">{breadcrumb}</div>}
-                                    <div className="gm-framework-content">{children}</div>
-                                </Flex>
+                        <Flex className="gm-framework-container">
+                            {menu && <div className="gm-framework-left">{menu}</div>}
+                            <Flex flex column className="gm-framework-right">
+                                {rightTop && <div className="gm-framework-right-top">{rightTop}</div>}
+                                <div className="gm-framework-content gm-padding-10">{children}</div>
                             </Flex>
-                        </div>
+                        </Flex>
                     </div>
-                    {copyright && <div className="gm-framework-copyright">{copyright}</div>}
                 </div>
                 <LayoutRoot/>
             </div>
@@ -80,11 +69,8 @@ Framework.scrollTop = function () {
 
 Framework.propTypes = {
     showMobileMenu: PropTypes.bool,
-    topContent: PropTypes.element,
-    topHeader: PropTypes.element,
     menu: PropTypes.element,
-    breadcrumb: PropTypes.element,
-    copyright: PropTypes.oneOfType([PropTypes.element, PropTypes.bool])
+    rightTop: PropTypes.element
 };
 
 export default Framework;

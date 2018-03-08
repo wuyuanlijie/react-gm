@@ -18,7 +18,7 @@ class Button extends React.Component {
         const {onClick} = this.props;
         const result = onClick(event);
 
-        if(!is.promise(result)){
+        if (!is.promise(result)) {
             return;
         }
 
@@ -53,7 +53,7 @@ class Button extends React.Component {
                 disabled={isLoading || disabled}
                 onClick={this.handleClick}
             >
-                {isLoading && <i className='ifont ifont-loading gm-button-loading'></i>}
+                {isLoading && <i className='ifont ifont-loading gm-button-loading'/>}
                 <span className='gm-button-content'>{children}</span>
             </button>
         );

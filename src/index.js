@@ -1,7 +1,7 @@
 import Pagination from './component/pagination/pagination';
 import PaginationNew from './component/pagination/pagination_new';
 import PaginationText from './component/pagination/pagination.text';
-import Dropper from './component/dropper/index';
+import Uploader from './component/uploader';
 import {Form, FormItem, FormButton, FormBlock} from './component/form';
 import ImportLead from './component/import_lead';
 import Storage from './component/storage';
@@ -27,7 +27,7 @@ import Trigger from './component/trigger';
 import Loading from './component/loading';
 import LoadingChunk from './component/loading/loading_chunk';
 import LoadingFullScreen from './component/loading/loading_full_screen';
-import InputNumber from './component/input/input.number';
+import InputNumber from './component/input_number';
 import LayoutRoot from './component/layout_root';
 import Modal from './component/modal';
 import RightSideModal from './component/modal/right_side_modal';
@@ -92,7 +92,7 @@ export {
     DatePicker,
     DateRangePicker,
     ImportLead,
-    Dropper,
+    Uploader,
     Storage,
     Tip,
     Progress,

@@ -10,21 +10,38 @@ imports:
 ::: demo 以下 example 依赖的数据
 ```js
 const data = [{
-       name: '订单管理',
-       sub: [
-            {name: '订单异常'},
-            {name: '每日订单'},
-            {name: '流转单异常'}
-       ]
-    }, {
-        name: '商户管理',
-        sub: [
-            {name: '商户信息'},
-            {name: '商户报表'},
-            {name: '商户对账单'},
-            {name: '新商户邀请'}
-        ]
-    }]
+      link: '/customer_manage',
+      name: '商户管理',
+      sub: [{
+          name: '商户管理',
+          sub: [
+              {link: '/customer_manage/customer/manage', name: '商户信息', auth: 'view_customer'},
+              {link: '/customer_manage/customer/report', name: '商户报表', auth: 'view_customerreport'},
+              {link: '/customer_manage/customer/bill', name: '商户对账单', auth: 'view_customeraccount'},
+              {link: '/customer_manage/customer/invitation_code', name: '新商户邀请', auth: 'edit_invitation'}
+          ],
+          link: '/customer_manage/customer'
+      }]
+  },{
+      link: '/operational_data',
+      name: '运营数据',
+      sub: [{
+          name: '利润分析',
+          sub: [
+              {link: '/operational_data/profit/profit_report', name: '销售利润', auth: 'view_saleprofit'},
+              {link: '/operational_data/profit/order_report', name: '订单分析', auth: 'view_customerorder'},
+              {link: '/operational_data/profit/product_report', name: '商品分析', auth: 'view_orderskus'}
+          ],
+          link: '/operational_data/profit'
+      }, {
+          name: '异常分析',
+          sub: [
+              {link: '/operational_data/abnormal/order_abnormal', name: '订单异常', auth: 'view_abnormal_customer_order'},
+              {link: '/operational_data/abnormal/product_abnormal', name: '商品异常', auth: 'view_abnormal_skus'}
+          ],
+          link: '/operational_data/abnormal'
+      }]
+  }];
 ```
 :::
 
@@ -36,7 +53,8 @@ class NavLeft extends React.Component {
         this.handleClick = ::this.handleClick;
         
         this.state = {
-            selected: {}
+            // selected: '/customer_manage/customer/report'
+            selected: ''
         }
     }
     
@@ -51,11 +69,9 @@ class NavLeft extends React.Component {
         return (
             <div className="b-app-nav-left" style={{width: 200}}>
                 <Menu
-                    id="menu_id"
                     data={data}
                     onSelect={this.handleClick}
                     selected={selected}
-                    allowCollapse={data.length > 1}
                 />
             </div>
         );
@@ -71,8 +87,8 @@ class NavLeft extends React.Component {
 :::
 
 ### Props
-- `id (string|isRequired)` 作为组件 `key`， 请保证其唯一性
-- `data (array|isRequired)` 菜单数据。数据结构 `{'[{name: "订单管理",sub: [{name: "订单异常"},{name: "每日订单"}]}]'}`
-- `onSelect (func|isRequired)` 点击菜单子项后回调，返回点击的节点数据
-- `allowCollapse (bool)` 设置菜单是否可收起或展开, 默认false
+- `logo (element)`
+- `data (array|isRequired)` 菜单数据。结构 `{'[{link, name, sub: [{...}]}]'}`
+- `onSelect (func|isRequired)` 返回节点数据
 - `selected (object)` 选中的数据
+- `...rest`

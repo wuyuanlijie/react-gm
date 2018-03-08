@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import _ from 'lodash';
-import Dropper from '../dropper/index.js';
+import Uploader from '../uploader';
 
 class ImportLead extends React.Component {
     constructor(props) {
@@ -12,6 +12,10 @@ class ImportLead extends React.Component {
         };
         this.handleSubmit = ::this.handleSubmit;
         this.handleDrop = ::this.handleDrop;
+    }
+
+    componentDidMount() {
+        console.warn('Deprecated. Use gm-service / ImportLead instead.');
     }
 
     render() {
@@ -60,8 +64,8 @@ class ImportLead extends React.Component {
         });
 
         var canSubmit = _.filter(tips, function (value) {
-                return value.modifyed === true;
-            }).length === tips.length;
+            return value.modifyed === true;
+        }).length === tips.length;
 
         var filename = this.state.selectedFile ? this.state.selectedFile.name : '';
 
@@ -71,9 +75,9 @@ class ImportLead extends React.Component {
             <div className="gm-import-lead">
                 <div>
                     <div>
-                        <Dropper className="gm-dropper-wrap" onDrop={this.handleDrop} accept=".xlsx">
+                        <Uploader className="gm-uploader-wrap" onUpload={this.handleDrop} accept=".xlsx">
                             <button className="btn btn-primary btn-sm">上传xlsx</button>
-                        </Dropper>
+                        </Uploader>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         {!this.props.disableSubmit && (
                             <button disabled={!canSubmit} className="btn btn-primary btn-sm"
@@ -88,8 +92,7 @@ class ImportLead extends React.Component {
                     {!this.props.unLine && (
                         <div className="gm-import-line clearfix">
                             {lineMap.map((v, i) => (
-                                <div key={i} className={v ? "tip" : ""}
-                                     onClick={this.handleLine.bind(this, i)}></div>))}
+                                <div key={i} className={v ? "tip" : ""} onClick={this.handleLine.bind(this, i)}/>))}
                         </div>
                     )}
                 </div>
@@ -135,8 +138,8 @@ class ImportLead extends React.Component {
         this.setState({
             selectedFile: files[0]
         });
-        if (files[0] && this.props.onDrop) {
-            this.props.onDrop(files[0]);
+        if (files[0] && this.props.onUpload) {
+            this.props.onUpload(files[0]);
         }
     }
 }
@@ -145,6 +148,7 @@ ImportLead.propTypes = {
     data: PropTypes.object,
     tips: PropTypes.array,
     onEdit: PropTypes.func,
+    onUpload: PropTypes.func,
     fileTempUrl: PropTypes.string,
     disableEdit: PropTypes.bool,
     unLine: PropTypes.bool,

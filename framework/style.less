@@ -4,8 +4,7 @@
 @import "../src/css/variables.less";
 @import "./print.less";
 
-@gm-framework-top-header-default-height: 30px;
-@gm-framework-top-content-default-height: 60px;
+@gm-framework-top-right-default-height: 40px;
 
 .gm-framework {
 
@@ -14,17 +13,20 @@
     min-height: 100vh;
   }
 
-  // container
-  &-container {
-    width: 85%;
-    margin: auto;
+  &-left {
+    &-default {
+      &-inner {
+        z-index: 110;
+        position: fixed;
+        height: 100vh;
+      }
+    }
   }
 
-  // top
-  &-top {
-    &-header {
+  &-right {
+    &-top {
       &-default {
-        height: @gm-framework-top-header-default-height;
+        height: @gm-framework-top-right-default-height;
 
         &-inner {
           position: fixed;
@@ -32,114 +34,12 @@
           left: 0;
           right: 0;
           z-index: 101;
-          height: @gm-framework-top-header-default-height;
-          background: #303030;
-          color: white;
-          font-size: 12px;
-          line-height: @gm-framework-top-header-default-height;
-        }
-
-        // setting popover
-        &-setting-popover {
-          min-width: 100px;
-          font-size: 12px;
-        }
-
-        &-mobile-nav {
-          display: none;
-          line-height: 30px;
-        }
-      }
-    }
-
-    &-content {
-      &-default {
-        height: @gm-framework-top-content-default-height;
-
-        &-inner {
-          position: fixed;
-          top: 30px;
-          left: 0;
-          right: 0;
-          z-index: 100;
           background: white;
-          height: @gm-framework-top-content-default-height;
-        }
-
-        &-nav > a,
-        &-jump > a {
-          font-size: 16px;
-          color: black;
-          display: inline-block;
-          padding: 9px 20px 5px;
-          border-bottom: 4px solid transparent;
-          margin-left: 10px;
-          text-decoration: none;
-          cursor: pointer;
-
-          &.active {
-            color: @brand-primary;
-            border-bottom: 4px solid @brand-primary;
-          }
-
-          &:hover {
-            text-decoration: none;
-            background: @gm-back-body-bg;
-            color: black;
-          }
-        }
-
-        // 跳转到另一个页面的 popover
-        &-jump {
-          position: relative;
-
-          &-popover {
-            min-width: 104px;
-            font-size: 16px;
-            box-shadow: 0 8px 6px rgba(0, 0, 0, 0.2) !important;
-
-            & > .list-group {
-              margin-top: -6px !important;
-
-              & > .list-group-item {
-                border: 0;
-              }
-            }
-          }
-
-          & > a:hover {
-            color: @brand-primary;
-          }
-
-          &::before {
-            content: '';
-            border-left: 1px solid @text-color;
-            position: absolute;
-            bottom: 12px;
-            height: 16px;
-            left: 5px;
-          }
+          border-bottom: 1px solid @gm-border-color;
+          height: @gm-framework-top-right-default-height;
         }
       }
     }
-  }
-
-  // center
-  &-center {
-    .gm-framework-container {
-      padding: 20px 0;
-    }
-  }
-
-  // left
-  &-left {
-    width: 190px;
-    padding-right: 20px;
-  }
-
-  // right
-  &-right {
-    width: ~"calc(85% - 170px)";
   }
 
   // breadcrumb
@@ -148,14 +48,14 @@
       background: none;
       position: relative;
       margin-bottom: 0;
-      padding: 5px 0 15px 20px;
+      padding: 0 10px 0 30px;
       line-height: 1;
       font-size: 12px;
 
       &::before {
         content: "";
-        top: 4px;
-        left: 0;
+        top: -1px;
+        left: 10px;
         position: absolute;
         display: block;
         height: 13px;
@@ -173,14 +73,17 @@
     }
   }
 
-  // copyright
-  &-copyright {
+  &-info {
     &-default {
-      padding: 0 10px;
-      height: 80px;
-      background: #303030;
-      color: white;
-      font-size: 12px;
+      &-setting-popover {
+        min-width: 100px;
+        font-size: 12px;
+      }
+
+      &-mobile-nav {
+        display: none;
+        line-height: 30px;
+      }
     }
   }
 }

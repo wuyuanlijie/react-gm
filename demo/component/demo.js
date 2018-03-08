@@ -2,11 +2,13 @@ import React from 'react';
 import {Flex, DatePicker} from '../../src/';
 
 class Component extends React.Component {
-    render() {
+    handleChange = () => {
 
+    };
+
+    render() {
         return (
             <div>
-
                 demo
                 <input type="text"/>
                 <DatePicker
