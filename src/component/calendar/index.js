@@ -83,10 +83,10 @@ class Calendar extends React.Component {
         return (
             <div className="gm-calendar-head text-center clearfix">
                 <a
-                    className="gm-calendar-head-pre pull-left"
+                    className="gm-calendar-head-pre pull-left gm-rotate-90"
                     onClick={this.handleChangeMonth.bind(this, month - 1)}
                 >
-                    <i className="glyphicon glyphicon-chevron-left"/>
+                    <i className="xfont xfont-down-small"/>
                 </a>
                 <span className="gm-calendar-head-title">
                     <span
@@ -96,10 +96,11 @@ class Calendar extends React.Component {
                     <span>&nbsp;&nbsp;{m.year()}</span>
                 </span>
                 <a
-                    className="gm-calendar-head-next pull-right"
+                    className="gm-calendar-head-next pull-right gm-rotate-90"
+                    style={{paddingTop: "5px"}}
                     onClick={this.handleChangeMonth.bind(this, month + 1)}
                 >
-                    <i className="glyphicon glyphicon-chevron-right"/>
+                    <i className="xfont xfont-up-small"/>
                 </a>
             </div>
         );
