@@ -1,0 +1,92 @@
+@import "../src/less/variables.less";
+@import "../src/less/mixins.less";
+@import "../src/less/custom.less";
+@import "../src/css/variables.less";
+@import "./print.less";
+
+@gm-framework-top-right-default-height: 40px;
+
+.gm-framework {
+
+  // 满足内容区域最小一屏
+  &-full-height {
+    min-height: 100vh;
+  }
+
+  &-left {
+    &-default {
+      &-inner {
+        z-index: 110;
+        position: fixed;
+        height: 100vh;
+      }
+    }
+  }
+
+  &-right {
+    &-top {
+      &-default {
+        height: @gm-framework-top-right-default-height;
+
+        &-inner {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 101;
+          background: white;
+          border-bottom: 1px solid @gm-border-color;
+          height: @gm-framework-top-right-default-height;
+        }
+      }
+    }
+  }
+
+  // breadcrumb
+  &-breadcrumb {
+    &-default {
+      background: none;
+      position: relative;
+      margin-bottom: 0;
+      padding: 0 10px 0 30px;
+      line-height: 1;
+      font-size: 12px;
+
+      &::before {
+        content: "";
+        top: -1px;
+        left: 10px;
+        position: absolute;
+        display: block;
+        height: 13px;
+        width: 13px;
+        background: @brand-primary;
+      }
+
+      li:last-child {
+        color: @brand-primary;
+      }
+
+      &-link {
+        color: @gm-color-second;
+      }
+    }
+  }
+
+  &-info {
+    &-default {
+      &-setting-popover {
+        min-width: 100px;
+        font-size: 12px;
+      }
+
+      &-mobile-nav {
+        display: none;
+        line-height: 30px;
+      }
+    }
+  }
+}
+
+// 放后面
+@import "./mobile.less";

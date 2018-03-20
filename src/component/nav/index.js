@@ -20,7 +20,6 @@ class Nav extends React.Component {
             });
         });
         this.state = {
-            over: false,
             clickItems,
             hoverItem
         };
@@ -36,14 +35,7 @@ class Nav extends React.Component {
 
     handleTwoOver = (two) => {
         this.setState({
-            over: true,
             hoverItem: two
-        });
-    };
-
-    handleLeave = () => {
-        this.setState({
-            over: false
         });
     };
 
@@ -57,13 +49,12 @@ class Nav extends React.Component {
             ...rest
         } = this.props;
 
-        const {clickItems, hoverItem, over} = this.state;
+        const {clickItems, hoverItem} = this.state;
 
         return (
             <div
                 {...rest}
                 className={classNames("gm-nav", className)}
-                onMouseLeave={this.handleLeave}
             >
                 <Flex alignCenter justifyCenter className="gm-nav-logo">
                     {logo}
@@ -95,7 +86,7 @@ class Nav extends React.Component {
                         </div>
                     ))}
                 </div>
-                {over && hoverItem.sub && (
+                {hoverItem.sub && (
                     <Flex column flex className="gm-nav-there">
                         {_.map(hoverItem.sub, (v, i) => (
                             <a
