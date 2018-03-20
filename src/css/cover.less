@@ -26,11 +26,6 @@
   padding: 10px;
 }
 
-// pagination 全局修改
-.pagination > li > a {
-  color: inherit;
-}
-
 .table {
   font-size: 12px;
 
@@ -45,6 +40,7 @@
 
   thead {
     tr {
+      background: #f2f3f9;
       border-bottom: 1px solid @gm-border-color;
     }
   }
@@ -54,14 +50,12 @@
       border-bottom: 1px solid @gm-border-color;
 
       &:hover {
-        background-color: @table-bg-hover;
+        background-color: #e7f4e7;
       }
     }
   }
 
   thead > tr > th {
-    padding: 8px 2px;
-
     &:not(.text-center) {
       text-align: left;
     }
@@ -69,10 +63,13 @@
     &:first-child {
       padding-left: 15px;
     }
+
+    &:last-child {
+      padding-right: 15px;
+    }
   }
 
   tbody > tr > td {
-    padding: 18px 2px;
     vertical-align: middle;
 
     &:not(.text-center) {
@@ -83,8 +80,8 @@
       padding-left: 15px;
     }
 
-    a {
-      color: @link-color;
+    &:last-child {
+      padding-right: 15px;
     }
   }
 
@@ -108,27 +105,26 @@
       tr {
         td {
           border: none;
-          color: @gm-color-second;
         }
-      }
-    }
-  }
-
-  &.table-striped {
-    thead {
-      tr {
-        background: @table-bg-accent;
-      }
-    }
-
-    tbody {
-      tr {
-        background: white;
       }
     }
   }
 
   .b-table-margin-left20 {
     margin-left: 20%;
+  }
+}
+
+.pagination {
+  margin: 0;
+
+  li {
+    display: inline-block;
+    margin: 3px;
+
+    a {
+      color: inherit;
+      padding: 3px 5px;
+    }
   }
 }

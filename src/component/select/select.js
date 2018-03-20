@@ -91,7 +91,7 @@ class Select extends React.Component {
                     <div className="gm-select-selected">
                         {selectedChildren}
                     </div>
-                    <i className={classNames("gm-arrow", {
+                    <i className={classNames({
                         'gm-arrow-up': show,
                         'gm-arrow-down': !show
                     })}/>

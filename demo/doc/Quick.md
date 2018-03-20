@@ -12,9 +12,21 @@ imports:
 ```js
 class QuickPanelDemo extends React.Component{
     render(){
-        return <QuickPanel title={"运营时间设置"}>
-            <div className="gm-padding-15">内容</div>
-        </QuickPanel>
+        return (
+            <div>
+                <QuickPanel title={"运营时间设置"} right={(
+                    <button disabled>adfasf</button>
+                )}>
+                    <div>内容</div>
+                </QuickPanel>
+                <QuickPanel title={"运营时间设置"} collapse>
+                    <div>内容</div>
+                </QuickPanel>
+                <QuickPanel title={"运营时间设置"} collapse in={false}>
+                    <div>内容</div>
+                </QuickPanel>
+            </div>
+        );
     }
 }
 ```

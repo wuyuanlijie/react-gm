@@ -9,7 +9,7 @@ class QuickPanel extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            in: this.props.in || true
+            in: props.in
         };
     }
 
@@ -20,21 +20,36 @@ class QuickPanel extends React.Component {
     }
 
     render() {
-        const {className, title, collapse, right, children, ...rest} = this.props;
+        const {
+            title,
+            collapse,
+            right,
+            'in': isIn, // eslint-disable-line
+            className,
+            children,
+            ...rest
+        } = this.props;
+
         return (
             <div {...rest} className={classNames("gm-bg gm-border gm-quick gm-quick-panel", className)}>
-                <Flex flex alignCenter justifyBetween className="gm-quick-title">
-                    {title}
-                    {collapse ? (
-                        <a onClick={::this.handleCollapse} style={{fontSize: '12px', marginLeft: '25px'}}>
-                            {collapse === true ? (this.state.in ? "收拢明细" : "展现明细") : collapse}
-                        </a>
-                    ) : undefined}
+                <Flex flex alignCenter justifyBetween className="gm-quick-panel-title">
+                    <Flex alignEnd className="gm-padding-tb-10">
+                        {title}
+                        {collapse ? (
+                            <a onClick={::this.handleCollapse} style={{fontSize: '12px', marginLeft: '5px'}}>
+                                {this.state.in ? "收拢明细" : "展现明细"}&nbsp;
+                                <i className={classNames('xfont', {
+                                    'xfont-down': !this.state.in,
+                                    'xfont-up': this.state.in
+                                })}/>
+                            </a>
+                        ) : undefined}
+                    </Flex>
                     <Flex flex/>
-                    {right ? React.cloneElement(right, {className: right.props.className}) : undefined}
+                    {right}
                 </Flex>
                 <Collapse in={this.state.in}>
-                    <div className="gm-border-top">
+                    <div>
                         {children}
                     </div>
                 </Collapse>
@@ -45,11 +60,14 @@ class QuickPanel extends React.Component {
 
 QuickPanel.propTypes = {
     title: PropTypes.oneOfType([PropTypes.string.isRequired, PropTypes.element]),
-    collapse: PropTypes.oneOfType([PropTypes.string, PropTypes.bool]),
+    collapse: PropTypes.bool,
     right: PropTypes.object,
     in: PropTypes.bool
 };
 
+QuickPanel.defaultProps = {
+    in: true
+};
 
 class QuickInfoCell extends React.Component {
 }
