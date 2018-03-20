@@ -39,6 +39,29 @@ class Nav extends React.Component {
         });
     };
 
+    handleMouseLeave = () => {
+        const {selected, data} = this.props;
+        console.log(selected);
+
+        // 不存在的链接则关掉
+        let isExist = false;
+        _.each(data, one => {
+            _.each(one.sub, two => {
+                _.each(two.sub, there => {
+                    if (selected === there.link) {
+                        isExist = true;
+                    }
+                });
+            });
+        });
+
+        if (!isExist) {
+            this.setState({
+                hoverItem: {}
+            });
+        }
+    };
+
     render() {
         const {
             onSelect,
@@ -46,48 +69,54 @@ class Nav extends React.Component {
             data,
             className,
             logo, // eslint-disable-line
+            widths,
             ...rest
         } = this.props;
 
         const {clickItems, hoverItem} = this.state;
 
         return (
-            <div
+            <Flex
                 {...rest}
                 className={classNames("gm-nav", className)}
+                onMouseLeave={this.handleMouseLeave}
             >
-                <Flex alignCenter justifyCenter className="gm-nav-logo">
-                    {logo}
-                </Flex>
-                <div className="gm-nav-one">
-                    {_.map(data, (one, oneI) => (
-                        <div key={oneI + one.link} className={classNames({
-                            'active': clickItems.includes(one)
-                        })}>
-                            <a
-                                href={one.link}
-                                onClick={this.handleOne.bind(this, one)}
-                            >{one.name}</a>
+                <div>
+                    <Flex alignCenter justifyCenter className="gm-nav-logo">
+                        {logo}
+                    </Flex>
+                    <div className="gm-nav-one">
+                        {_.map(data, (one, oneI) => (
+                            <div key={oneI + one.link} className={classNames({
+                                'active': clickItems.includes(one)
+                            })} style={{width: widths[0]}}>
+                                <a
+                                    href={one.link}
+                                    onClick={this.handleOne.bind(this, one)}
+                                >{one.name}</a>
 
-                            <div className="gm-nav-two">
-                                {_.map(one.sub, (two, twoI) => (
-
-                                    <a
-                                        key={twoI + two.link}
-                                        className={classNames({
-                                            'active': hoverItem.link === two.link
-                                        })}
-                                        href={two.link}
-                                        onClick={e => e.preventDefault()}
-                                        onMouseOver={this.handleTwoOver.bind(this, two)}
-                                    >{two.name}</a>
-                                ))}
+                                <div className="gm-nav-two">
+                                    {_.map(one.sub, (two, twoI) => (
+                                        <a
+                                            key={twoI + two.link}
+                                            className={classNames({
+                                                'active': hoverItem.link === two.link
+                                            })}
+                                            href={two.link}
+                                            onClick={e => e.preventDefault()}
+                                            onMouseOver={this.handleTwoOver.bind(this, two)}
+                                        >{two.name}</a>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
+
                 {hoverItem.sub && (
-                    <Flex column flex className="gm-nav-there">
+                    <Flex column flex className="gm-nav-there" style={{
+                        width: widths[1]
+                    }}>
                         {_.map(hoverItem.sub, (v, i) => (
                             <a
                                 href={v.link}
@@ -103,7 +132,7 @@ class Nav extends React.Component {
                         ))}
                     </Flex>
                 )}
-            </div>
+            </Flex>
         );
     }
 }
@@ -113,7 +142,8 @@ Nav.propTypes = {
     // 三级菜单 [{link, name, sub: [{link, name, sub: [{link, name}]}]}]
     data: PropTypes.array.isRequired,
     onSelect: PropTypes.func.isRequired,
-    selected: PropTypes.string.isRequired
+    selected: PropTypes.string.isRequired,
+    widths: PropTypes.array.isRequired // ["120px", "150px"]
 };
 
 export default Nav;
