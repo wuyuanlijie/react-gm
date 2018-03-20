@@ -73,7 +73,8 @@ class App extends React.Component {
                         left: 0,
                         width: "230px",
                         zIndex: 101,
-                        background: 'white'
+                        background: 'white',
+                        paddingLeft: '10px'
                     }}>
                         <svg width="28" height="28" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg">
                             <path
