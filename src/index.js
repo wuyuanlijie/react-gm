@@ -35,7 +35,7 @@ import CleanModal from './component/modal/clean_modal';
 import Collapse from './component/collapse';
 import {DropDown, DropDownItem, DropDownItems} from './component/drop_down';
 import TreeSelect from './component/tree_select';
-import {QuickInfo, QuickInfoCell, QuickPanel, QuickFilter, QuickTab, QuickDesc} from './component/quick';
+import {QuickPanel, QuickFilter, QuickTab, QuickDesc} from './component/quick';
 import {Radio, RadioGroup} from './component/radio';
 import {Checkbox, CheckboxGroup} from './component/checkbox';
 import FilterSelect from './component/filter_select/filter.select';
@@ -126,8 +126,6 @@ export {
     Collapse,
     DropDown, DropDownItems, DropDownItem,
     TreeSelect,
-    QuickInfo,
-    QuickInfoCell,
     QuickPanel,
     QuickFilter,
     QuickTab,

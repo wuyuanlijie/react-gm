@@ -23,6 +23,8 @@
   }
 
   &.gm-quick-panel {
+    background-color: white;
+    border: 1px solid @gm-border-color;
     padding: 10px 15px;
 
     .gm-quick-panel-title {
@@ -32,15 +34,25 @@
         cursor: pointer;
       }
     }
+
+    & + & {
+      margin-top: -1px;
+      border-top: none;
+    }
   }
 
   &.gm-quick-filter {
+    border: 1px solid @gm-border-color;
+
     .gm-quick-filter-toggle {
+      font-size: 12px;
       cursor: pointer;
     }
   }
 
   &.gm-quick-desc {
+    border: 1px solid @gm-border-color;
+
     .btn {
       min-width: 90px;
     }

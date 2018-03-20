@@ -31,7 +31,7 @@ class QuickPanel extends React.Component {
         } = this.props;
 
         return (
-            <div {...rest} className={classNames("gm-bg gm-border gm-quick gm-quick-panel", className)}>
+            <div {...rest} className={classNames("gm-quick gm-quick-panel", className)}>
                 <Flex flex alignCenter justifyBetween className="gm-quick-panel-title">
                     <Flex alignEnd className="gm-padding-tb-10">
                         {title}
@@ -69,68 +69,6 @@ QuickPanel.defaultProps = {
     in: true
 };
 
-class QuickInfoCell extends React.Component {
-}
-
-QuickInfoCell.displayName = 'QuickInfoCell';
-QuickInfoCell.propTypes = {
-    primary: PropTypes.bool,
-    title: PropTypes.string.isRequired
-};
-
-class QuickInfo extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render() {
-        const children = toString.call(this.props.children) === '[object Array]' ? this.props.children : [this.props.children];
-        let infos = [], primaryInfo = false, others = [];
-
-        _.each(children, value => {
-            switch (value.type.displayName) {
-                case QuickInfoCell.displayName:
-                    if (value.props.primary) {
-                        primaryInfo = value;
-                    } else {
-                        infos.push(value);
-                    }
-                    break;
-                default:
-                    others.push(value);
-                    break;
-            }
-        });
-
-        return (
-            <div className={classNames("gm-bg gm-border gm-quick", this.props.className)}>
-                {(infos.length > 0 || primaryInfo) ? (
-                    <Flex className="gm-quick-title">
-                        {primaryInfo ? (
-                            <Flex alignCenter juestifyCenter width="150px">
-                                <strong>{primaryInfo.props.title}：</strong> {primaryInfo.props.children}
-                            </Flex>
-                        ) : undefined}
-                        {primaryInfo ? (
-                            <Flex className="gm-margin-lr-15 gm-border-right"/>
-                        ) : undefined}
-                        <Flex flex wrap>
-                            {_.map(infos, (value, i) => (
-                                <Flex key={i} width="33.33%" juestifyCenter>
-                                    <strong>{value.props.title}：</strong>{value.props.children}
-                                </Flex>
-                            ))}
-                        </Flex>
-                    </Flex>
-                ) : undefined}
-                <div className="gm-border-top">
-                    {others}
-                </div>
-            </div>
-        );
-    }
-}
-
 class QuickFilter extends React.Component {
     constructor(props) {
         super(props);
@@ -154,7 +92,7 @@ class QuickFilter extends React.Component {
 
         return (
             <div
-                className={classNames("gm-bg gm-border gm-quick gm-quick-filter gm-padding-15", this.props.className, {
+                className={classNames("gm-quick gm-quick-filter gm-padding-15", this.props.className, {
                     'gm-padding-bottom-0': collapseRender
                 })}>
                 {collapseRender ? <div>
@@ -293,7 +231,7 @@ class QuickDesc extends React.Component {
         const {left, right, leftFlex, rightFlex, children} = this.props;
 
         return (
-            <div className={classNames("gm-bg gm-border gm-quick gm-quick-desc", this.props.className)}>
+            <div className={classNames("gm-quick gm-quick-desc", this.props.className)}>
                 <Flex>
                     <Flex flex={leftFlex || 2} alignCenter className="gm-quick-desc-title">
                         {left}
@@ -305,13 +243,11 @@ class QuickDesc extends React.Component {
                         }) : null}
                     </Flex>
                 </Flex>
-                {
-                    children ?
-                        <Flex className="gm-border-top gm-padding-tb-15">
-                            {children}
-                        </Flex>
-                        : null
-                }
+                {children && (
+                    <Flex className="gm-border-top gm-padding-tb-15">
+                        {children}
+                    </Flex>
+                )}
             </div>
         );
     }
@@ -319,8 +255,6 @@ class QuickDesc extends React.Component {
 
 export {
     QuickPanel,
-    QuickInfo,
-    QuickInfoCell,
     QuickFilter,
     QuickTab,
     QuickDesc

@@ -19,6 +19,8 @@ class QuickPanelDemo extends React.Component{
                 )}>
                     <div>内容</div>
                 </QuickPanel>
+                <hr/>
+                <div>quick panel 一起会相连</div>
                 <QuickPanel title={"运营时间设置"} collapse>
                     <div>内容</div>
                 </QuickPanel>
